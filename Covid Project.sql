@@ -157,7 +157,6 @@ WITH MonthlyChange AS (
     `Covid_Project.Covid_Data.owid-covid-data`
   WHERE continent IS NOT NULL
   AND LOWER(location) NOT LIKE '%income%'
-
 )
 
 SELECT
