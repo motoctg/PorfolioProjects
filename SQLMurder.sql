@@ -65,5 +65,18 @@ FROM interview
 WHERE person_id = "67318"
 
 -- Jeremy stated that he was hired by:
-  -- Woman, wealthy, 65"-67" tall, red hair, and she attened the SQL Symphony Concert 3 times in 12/2017
--- This will be a big query to complete this in one query
+  -- Woman, wealthy, 65"-67" tall, red hair, drives a Tesla Model S, and she attened the SQL Symphony Concert 3 times in 12/2017
+-- This will be a big query to complete this in one attempt
+
+WITH filtered_driver AS 
+(
+  SELECT *
+  FROM drivers_license AS a 
+  JOIN person AS b ON a.id = b.license_id
+  WHERE a.height >= 65 AND a.height <= 67 AND a.gender = 'female' AND a.hair_color = 'red' AND a.car_model = 'Model S'
+)
+
+SELECT *
+FROM filtered_driver AS fd
+JOIN income AS i ON fd.ssn = i.ssn
+ORDER BY i.annual_income DESC;
