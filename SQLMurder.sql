@@ -65,18 +65,27 @@ FROM interview
 WHERE person_id = "67318"
 
 -- Jeremy stated that he was hired by:
-  -- Woman, wealthy, 65"-67" tall, red hair, drives a Tesla Model S, and she attened the SQL Symphony Concert 3 times in 12/2017
+  -- Woman, wealthy, 65"-67" tall, red hair, drives a Tesla Model S, and she attened the SQL Symphony Concert three times in 12/2017
 -- This will be a big query to complete this in one attempt
 
 WITH filtered_driver AS 
 (
-  SELECT *
-  FROM drivers_license AS a 
-  JOIN person AS b ON a.id = b.license_id
-  WHERE a.height >= 65 AND a.height <= 67 AND a.gender = 'female' AND a.hair_color = 'red' AND a.car_model = 'Model S'
+  SELECT a.*, b.id AS license_id
+  FROM person AS a 
+  JOIN drivers_license AS b ON a.license_id = b.id
+  WHERE b.height >= 65 AND b.height <= 67 AND b.gender = 'female' AND b.hair_color = 'red' AND b.car_model = 'Model S'
 )
 
-SELECT *
+SELECT fd.*, i.*, fbc.*
 FROM filtered_driver AS fd
 JOIN income AS i ON fd.ssn = i.ssn
+JOIN facebook_event_checkin AS fbc ON fd.id = fbc.person_id
 ORDER BY i.annual_income DESC;
+
+-- Only one name comes up, and does so three times
+  -- Miranda Priestly
+-- Query with that solution gives you the winning response:
+
+INSERT INTO solution VALUES (1, 'Miranda Priestly');
+SELECT value FROM solution;
+
